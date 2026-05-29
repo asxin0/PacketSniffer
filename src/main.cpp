@@ -5,5 +5,5 @@
 int main ()
 {
     DeviceManager device;
-    device.DeviceLiveListPrint(device.DeviceLiveList());
+    std::cout << device.SelectDevice();
 }

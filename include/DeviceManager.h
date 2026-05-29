@@ -8,6 +8,7 @@
 class DeviceManager
 {
     public:
-        pcap_if_t* DeviceLiveList();
-        void DeviceLiveListPrint(pcap_if_t* devices);
+        pcap_if_t* LiveList();
+        std::vector<std::string> LiveListPrint(pcap_if_t* devices);
+        const std::string SelectDevice();
 };
