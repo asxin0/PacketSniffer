@@ -9,6 +9,7 @@ add_executable(PacketSniffer
     src/DeviceManager.cpp
     src/CaptureDevice.cpp
     src/PacketSniffer.cpp
+    src/PacketStorage.cpp
 )
 
 target_include_directories(PacketSniffer PRIVATE include)
