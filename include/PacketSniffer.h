@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CaptureDevice.h"
+#include "PacketStorage.h"
 
 #include <pcap.h>
 #include <string>
@@ -12,9 +13,10 @@ class PacketSniffer
     private:
         char errbuf[PCAP_ERRBUF_SIZE];
         const CaptureDevice& device;
+        PacketStorage& storage;
 
     public:
-        PacketSniffer(CaptureDevice& captureDevice);
+        PacketSniffer(CaptureDevice& captureDevice, PacketStorage& storage);
 
         void CaptureLoop();
 };

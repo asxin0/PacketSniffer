@@ -17,7 +17,7 @@ bool CaptureDevice::Open()
     handle = pcap_open_live (
         device,
         65536,
-        0,
+        1,
         1000,
         errbuf
     );

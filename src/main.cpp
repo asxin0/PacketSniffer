@@ -23,8 +23,12 @@ int main ()
         return 1;
     }
 
-    PacketSniffer sniffer(captureDev);
+    PacketStorage storageSys;
+
+    PacketSniffer sniffer(captureDev, storageSys);
     sniffer.CaptureLoop();
+
+    std::cout << storageSys.getSize();
 
     return 0;
 }

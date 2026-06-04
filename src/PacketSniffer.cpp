@@ -1,12 +1,14 @@
 #include "PacketSniffer.h"
+#include "Packet.h"
 
 #include <pcap.h>
 #include <iostream>
 #include <vector>
 #include <string>
 
-PacketSniffer::PacketSniffer(CaptureDevice& CaptureDevice)
-    :device(CaptureDevice)
+PacketSniffer::PacketSniffer(CaptureDevice& captureDevice, PacketStorage& packetStorage)
+    :device(captureDevice),
+     storage(packetStorage)
 {
 }
 
@@ -18,17 +20,19 @@ void PacketSniffer::CaptureLoop()
     while (packetsSniffed < 10)
     {
         pcap_pkthdr* header = nullptr;
-        const unsigned char* packetData = nullptr;
+        const u_char* packetData = nullptr;
 
         int result = pcap_next_ex(handle, &header, &packetData);
 
         if (result == 1)
         {
             std::cout << "Captured len: " << header->caplen
-                      << "\nwtf is this: " << header->comment
-                      << "\nOrginal len: " << header->len
+                      << "\nOriginal len: " << header->len
                       << "\n" << header->ts.tv_sec << "."
                       << header->ts.tv_usec << "\n\n";
+
+            Packet newPacket(header, packetData);
+            storage.addPacket(newPacket);
 
             packetsSniffed++;
         }
@@ -36,6 +40,11 @@ void PacketSniffer::CaptureLoop()
         {
             std::cerr << "Big fat error";
             break;
+        }
+        else if (result == 0)
+        {
+            std::cout << "\nWaiting on packet...\n\n";
+            continue;
         }
     }
 }
