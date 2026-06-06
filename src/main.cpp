@@ -1,6 +1,6 @@
-#include "DeviceManager.h"
-#include "CaptureDevice.h"
-#include "PacketSniffer.h"
+#include "capture/DeviceManager.h"
+#include "capture/CaptureDevice.h"
+#include "capture/PacketSniffer.h"
 
 #include <iostream>
 
@@ -29,6 +29,8 @@ int main ()
     sniffer.CaptureLoop();
 
     std::cout << storageSys.getSize();
+
+    captureDev.Close();
 
     return 0;
 }

@@ -1,4 +1,4 @@
-#include "PacketSniffer.h"
+#include "capture/PacketSniffer.h"
 #include "Packet.h"
 
 #include <pcap.h>
@@ -17,7 +17,7 @@ void PacketSniffer::CaptureLoop()
     int packetsSniffed = 0;
     pcap_t* handle = device.HandleGetter();
 
-    while (packetsSniffed < 10)
+    while (packetsSniffed < 20)
     {
         pcap_pkthdr* header = nullptr;
         const u_char* packetData = nullptr;
@@ -32,6 +32,13 @@ void PacketSniffer::CaptureLoop()
                       << header->ts.tv_usec << "\n\n";
 
             Packet newPacket(header, packetData);
+
+            for (u_char c : newPacket.rawBytes)
+            {
+                std::cout << c;
+            }
+
+            std::cout << "\n\n";
             storage.addPacket(newPacket);
 
             packetsSniffed++;

@@ -1,4 +1,4 @@
-#include <CaptureDevice.h>
+#include <capture/CaptureDevice.h>
 
 #include <pcap.h>
 #include <iostream>
@@ -29,6 +29,15 @@ bool CaptureDevice::Open()
     }
 
     return true;
+}
+
+void CaptureDevice::Close()
+{
+    if (handle != nullptr)
+    {
+        pcap_close(handle);
+        handle = nullptr;
+    }
 }
 
 pcap_t* CaptureDevice::HandleGetter() const

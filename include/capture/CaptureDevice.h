@@ -16,6 +16,6 @@ class CaptureDevice
         CaptureDevice(const std::string selectedName);
 
         bool Open();
-        bool Close();
+        void Close();
         pcap_t* HandleGetter() const;
 };
