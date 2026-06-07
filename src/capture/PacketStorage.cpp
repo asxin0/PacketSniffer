@@ -1,6 +1,4 @@
-#include <Packet.h>
-
-#include "Packet.h"
+#include "packet/Packet.h"
 #include "capture/PacketStorage.h"
 
 #include <string>

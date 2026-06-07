@@ -1,9 +1,7 @@
 #pragma once
 
-#include "Packet.h"
+#include "packet/Packet.h"
 
-#include <pcap.h>
-#include <string>
 #include <vector>
 
 class PacketStorage

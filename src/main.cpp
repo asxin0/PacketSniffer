@@ -11,7 +11,6 @@ int main ()
 
     if (selectedDevice == "")
     {
-        std::cerr << "Big fat error";
         return 1;
     }
 
@@ -19,7 +18,6 @@ int main ()
 
     if (!captureDev.Open())
     {
-        std::cerr << "Big fat error";
         return 1;
     }
 

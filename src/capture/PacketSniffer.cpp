@@ -1,5 +1,6 @@
 #include "capture/PacketSniffer.h"
-#include "Packet.h"
+#include "packet/Packet.h"
+#include "packet/PcapPacketAdapter.h"
 
 #include <pcap.h>
 #include <iostream>
@@ -19,19 +20,22 @@ void PacketSniffer::CaptureLoop()
 
     while (packetsSniffed < 20)
     {
-        pcap_pkthdr* header = nullptr;
+        pcap_pkthdr* pcapHeader = nullptr;
         const u_char* packetData = nullptr;
 
-        int result = pcap_next_ex(handle, &header, &packetData);
+        int result = pcap_next_ex(handle, &pcapHeader, &packetData);
 
         if (result == 1)
         {
-            std::cout << "Captured len: " << header->caplen
-                      << "\nOriginal len: " << header->len
-                      << "\n" << header->ts.tv_sec << "."
-                      << header->ts.tv_usec << "\n\n";
+            PcapPacketAdapter adapter;
+            PacketHeader header = adapter.PcapHdrToHdr(pcapHeader);
 
             Packet newPacket(header, packetData);
+
+            std::cout << "caplen: " << newPacket.header.capturedLen
+                      << "\nlen: " << newPacket.header.originalLen
+                      << "\nts: " << newPacket.header.timestampS
+                      << "." << newPacket.header.timestampMs << "\n";
 
             for (u_char c : newPacket.rawBytes)
             {

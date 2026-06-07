@@ -11,6 +11,7 @@ add_executable(PacketSniffer
     src/capture/PacketSniffer.cpp
     src/capture/PacketStorage.cpp
     src/parser/EthernetLayer.cpp
+    src/packet/PcapPacketAdapter.cpp
 )
 
 target_include_directories(PacketSniffer PRIVATE include)
