@@ -13,4 +13,14 @@ PacketHeader PcapPacketAdapter::PcapHdrToHdr(pcap_pkthdr* pcapHeader)
     return header;
 }
 
-//test
+LinkLayerType PcapPacketAdapter::toLinkLayer(int pcap)
+{
+    if (pcap == DLT_EN10MB)
+    {
+        return LinkLayerType::Ethernet;
+    }
+    else
+    {
+        return LinkLayerType::Unknown;
+    }
+}

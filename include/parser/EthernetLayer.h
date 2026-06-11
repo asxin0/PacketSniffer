@@ -1,8 +1,11 @@
 #pragma once
 
+#include "packet/Packet.h"
+
 #include <iostream>
 #include <vector>
 #include <string>
+#include <optional>
 
 class EthernetHeader
 {
@@ -13,4 +16,6 @@ class EthernetHeader
 
 class EthernetLayer
 {
+    public:
+        static std::optional<EthernetHeader> Parse(Packet& Packet);
 };

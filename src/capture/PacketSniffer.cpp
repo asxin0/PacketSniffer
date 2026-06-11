@@ -16,9 +16,13 @@ PacketSniffer::PacketSniffer(CaptureDevice& captureDevice, PacketStorage& packet
 void PacketSniffer::CaptureLoop()
 {
     int packetsSniffed = 0;
+
     pcap_t* handle = device.HandleGetter();
 
-    while (packetsSniffed < 20)
+    int pcapLinkLayer = pcap_datalink(handle);
+    LinkLayerType linkLayer = PcapPacketAdapter::toLinkLayer(pcapLinkLayer);
+
+    while (packetsSniffed < 3)
     {
         pcap_pkthdr* pcapHeader = nullptr;
         const u_char* packetData = nullptr;
@@ -27,15 +31,15 @@ void PacketSniffer::CaptureLoop()
 
         if (result == 1)
         {
-            PcapPacketAdapter adapter;
-            PacketHeader header = adapter.PcapHdrToHdr(pcapHeader);
+            PacketHeader header = PcapPacketAdapter::PcapHdrToHdr(pcapHeader);
 
-            Packet newPacket(header, packetData);
+            Packet newPacket(header, packetData, linkLayer);
 
             std::cout << "caplen: " << newPacket.header.capturedLen
                       << "\nlen: " << newPacket.header.originalLen
                       << "\nts: " << newPacket.header.timestampS
-                      << "." << newPacket.header.timestampMs << "\n";
+                      << "." << newPacket.header.timestampMs
+                      << "\nLink layer: " << static_cast<int>(newPacket.linkLayerType) << "\n";
 
             for (u_char c : newPacket.rawBytes)
             {

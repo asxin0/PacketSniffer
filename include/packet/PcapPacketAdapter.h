@@ -7,5 +7,6 @@
 class PcapPacketAdapter
 {
     public:
-        PacketHeader PcapHdrToHdr(pcap_pkthdr* pcapHeader);
+        static PacketHeader PcapHdrToHdr(pcap_pkthdr* pcapHeader);
+        static LinkLayerType toLinkLayer(int pcap);
 };

@@ -1,11 +1,10 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(PacketSniffer)
+project(ringcap)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(PacketSniffer
-    src/main.cpp
+add_library(ringcap
     src/capture/DeviceManager.cpp
     src/capture/CaptureDevice.cpp
     src/capture/PacketSniffer.cpp
@@ -14,6 +13,12 @@ add_executable(PacketSniffer
     src/packet/PcapPacketAdapter.cpp
 )
 
-target_include_directories(PacketSniffer PRIVATE include)
+target_include_directories(ringcap PUBLIC include)
 
-target_link_libraries(PacketSniffer PRIVATE pcap)
+target_link_libraries(ringcap PRIVATE pcap)
+
+add_executable(ringcap_demo
+    src/main.cpp
+)
+
+target_link_libraries(ringcap_demo PRIVATE ringcap)
